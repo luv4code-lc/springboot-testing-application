@@ -1,6 +1,8 @@
 package com.luv4code.springboot.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,10 @@ class HelloWorldControllerTest {
 
 		MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/hello-world")
 				.contentType(MediaType.APPLICATION_JSON);
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		MvcResult result = mockMvc.perform(requestBuilder)
+				.andExpect(status().isOk())
+				.andExpect(content().string("Hello World"))
+				.andReturn();
 		assertEquals("Hello World", result.getResponse().getContentAsString());
 
 	}
